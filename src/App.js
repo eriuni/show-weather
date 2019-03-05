@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Input from "./Components/Input";
+import InputCity from "./Components/InputCity";
 import Weather from "./Components/Weather";
 
 import "./App.css";
@@ -55,7 +55,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Input showWeather={this.showWeather} />
+        <InputCity showWeather={this.showWeather} />
         <Weather location={this.state.location} temp={this.state.string} />
       </div>
     );
