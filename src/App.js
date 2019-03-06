@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import InputCity from "./Components/InputCity";
 import Weather from "./Components/Weather";
+import { Grid, Header, Message } from "semantic-ui-react";
 
 import "./App.css";
 
@@ -24,24 +25,24 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
-    fetch(
-      `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${apiKey}`
-    )
-      .then(response => response.json())
-      .then(weather => {
-        this.setState({
-          location: weather.name,
-          desc: weather.weather[0].main,
-          string: weather.main.temp,
-          icon: weather.weather[0].icon,
-          humidity: weather.main.humidity,
-          feelsLike: weather.main.temp_max,
-          dewpoint: weather.main.temp_min,
-          wind: weather.wind.speed
-        });
-      });
-  }
+  // componentDidMount() {
+  //   fetch(
+  //     `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${apiKey}`
+  //   )
+  //     .then(response => response.json())
+  //     .then(weather => {
+  //       this.setState({
+  //         location: weather.name,
+  //         desc: weather.weather[0].main,
+  //         string: weather.main.temp,
+  //         icon: weather.weather[0].icon,
+  //         humidity: weather.main.humidity,
+  //         feelsLike: weather.main.temp_max,
+  //         dewpoint: weather.main.temp_min,
+  //         wind: weather.wind.speed
+  //       });
+  //     });
+  // }
 
   showWeather = e => {
     e.preventDefault();
@@ -55,8 +56,23 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <InputCity showWeather={this.showWeather} />
-        <Weather location={this.state.location} temp={this.state.string} />
+        <Grid textAlign="center" verticalAlign="middle">
+          <Grid.Column style={{ maxWidth: 650 }}>
+            <Header as="h1" color="teal" textAlign="center">
+              Show Weather App
+            </Header>
+            <InputCity showWeather={this.showWeather} />
+            <div className="weather">
+              <Weather
+                location={this.state.location}
+                temp={this.state.string}
+              />
+            </div>
+            <Message>
+              Build by <a href="http://github.com/eriuni">ERIUNI</a>
+            </Message>
+          </Grid.Column>
+        </Grid>
       </div>
     );
   }

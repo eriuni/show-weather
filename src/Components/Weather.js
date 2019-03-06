@@ -1,9 +1,13 @@
 import React from "react";
+import { Header, Flag } from "semantic-ui-react";
 
 const Weather = props => (
-  <h1>
-    {props.location} : {props.temp} ° C
-  </h1>
+  <div>
+    <Header as="h2">
+      <Flag name="al" />
+      Shkoder, AL
+    </Header>
+  </div>
 );
 
 export default Weather;
