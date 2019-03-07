@@ -14,35 +14,42 @@ class App extends Component {
     this.showWeather = this.showWeather.bind(this);
     this.state = {
       location: undefined,
-      desc: undefined,
-      string: undefined,
-      details: undefined,
+      country: undefined,
+      temp: undefined,
       icon: undefined,
+      desc: undefined,
+      maxTemp: undefined,
+      minTemp: undefined,
       humidity: undefined,
-      feelsLike: undefined,
-      dewpoint: undefined,
-      wind: undefined
+      pressure: undefined,
+      wind: undefined,
+      flag: undefined
     };
   }
 
-  // componentDidMount() {
-  //   fetch(
-  //     `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${apiKey}`
-  //   )
-  //     .then(response => response.json())
-  //     .then(weather => {
-  //       this.setState({
-  //         location: weather.name,
-  //         desc: weather.weather[0].main,
-  //         string: weather.main.temp,
-  //         icon: weather.weather[0].icon,
-  //         humidity: weather.main.humidity,
-  //         feelsLike: weather.main.temp_max,
-  //         dewpoint: weather.main.temp_min,
-  //         wind: weather.wind.speed
-  //       });
-  //     });
-  // }
+  componentDidMount() {
+    fetch(
+      `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${apiKey}`
+    )
+      .then(response => response.json())
+      .then(weather => {
+        this.setState({
+          location: weather.name,
+          country: weather.sys.country,
+          temp: weather.main.temp.toFixed(),
+          icon: `http://openweathermap.org/img/w/${
+            weather.weather[0].icon
+          }.png`,
+          desc: weather.weather[0].description,
+          maxTemp: weather.main.temp_max.toFixed(),
+          minTemp: weather.main.temp_min.toFixed(),
+          humidity: weather.main.humidity,
+          pressure: weather.main.pressure,
+          wind: weather.wind.speed,
+          flag: weather.sys.country.toLowerCase()
+        });
+      });
+  }
 
   showWeather = e => {
     e.preventDefault();
@@ -54,6 +61,20 @@ class App extends Component {
   }
 
   render() {
+    const {
+      location,
+      country,
+      temp,
+      icon,
+      desc,
+      maxTemp,
+      minTemp,
+      humidity,
+      pressure,
+      wind,
+      flag
+    } = this.state;
+
     return (
       <div className="App">
         <Grid textAlign="center" verticalAlign="middle">
@@ -61,11 +82,23 @@ class App extends Component {
             <Header as="h1" color="teal" textAlign="center">
               Show Weather App
             </Header>
-            <InputCity showWeather={this.showWeather} />
+            <InputCity
+              showWeather={this.showWeather}
+              handle={this.handleChange}
+            />
             <div className="weather">
               <Weather
-                location={this.state.location}
-                temp={this.state.string}
+                location={location}
+                country={country}
+                temp={temp}
+                icon={icon}
+                desc={desc}
+                maxTemp={maxTemp}
+                minTemp={minTemp}
+                humidity={humidity}
+                pressure={pressure}
+                wind={wind}
+                flag={flag}
               />
             </div>
             <Message>
