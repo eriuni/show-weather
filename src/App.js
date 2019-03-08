@@ -28,43 +28,48 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
-    fetch(
+  getWeather = async () => {
+    await fetch(
       `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${apiKey}`
     )
       .then(response => response.json())
       .then(weather => {
-        this.setState({
-          cod: weather.cod,
-          location: weather.name,
-          country: weather.sys.country,
-          temp: weather.main.temp.toFixed(),
-          icon: `http://openweathermap.org/img/w/${
-            weather.weather[0].icon
-          }.png`,
-          desc: weather.weather[0].description,
-          maxTemp: weather.main.temp_max.toFixed(),
-          minTemp: weather.main.temp_min.toFixed(),
-          humidity: weather.main.humidity,
-          pressure: weather.main.pressure,
-          wind: weather.wind.speed,
-          flag: weather.sys.country.toLowerCase()
-        });
+        if (weather.cod === 200) {
+          this.setState({
+            cod: weather.cod,
+            location: weather.name,
+            country: weather.sys.country,
+            temp: weather.main.temp.toFixed(),
+            icon: `http://openweathermap.org/img/w/${
+              weather.weather[0].icon
+            }.png`,
+            desc: weather.weather[0].description,
+            maxTemp: weather.main.temp_max.toFixed(),
+            minTemp: weather.main.temp_min.toFixed(),
+            humidity: weather.main.humidity,
+            pressure: weather.main.pressure,
+            wind: weather.wind.speed,
+            flag: weather.sys.country.toLowerCase()
+          });
+        } else {
+          this.setState({
+            cod: weather.cod
+          });
+        }
       });
-  }
+  };
 
   handleChange = (e, { name, value }) => this.setState({ [name]: value });
 
   showWeather = e => {
     e.preventDefault();
     city = e.target.city.value;
+    this.getWeather();
     e.target.city.value = "";
   };
 
-  componentDidUpdate() {
-    this.componentDidMount();
-
-    console.log(this.state.cod);
+  componentDidMount() {
+    this.getWeather();
   }
 
   render() {
