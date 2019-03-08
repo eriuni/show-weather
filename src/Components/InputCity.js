@@ -6,8 +6,10 @@ const InputCity = props => (
     <Input
       type="text"
       name="city"
+      value={props.city}
       action="Show Weather"
       placeholder="Enter the city..."
+      onChange={props.handleChange}
     />
   </form>
 );

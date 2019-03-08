@@ -1,8 +1,24 @@
 import React from "react";
-import { Header, Flag, Label, Divider, Table } from "semantic-ui-react";
+import {
+  Header,
+  Flag,
+  Label,
+  Divider,
+  Table,
+  Message
+} from "semantic-ui-react";
 
 const Weather = props => {
-  return (
+  return props.cod !== 200 ? (
+    <Message
+      error
+      header="There was some errors with your submission"
+      list={[
+        "You must include both a upper and lower case letters in your password.",
+        "You need to select your home country."
+      ]}
+    />
+  ) : (
     <div>
       <Header as="h2">
         <Flag name={props.flag} />

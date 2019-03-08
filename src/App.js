@@ -11,7 +11,7 @@ let city = "Shkoder";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.showWeather = this.showWeather.bind(this);
+
     this.state = {
       location: undefined,
       country: undefined,
@@ -23,7 +23,8 @@ class App extends Component {
       humidity: undefined,
       pressure: undefined,
       wind: undefined,
-      flag: undefined
+      flag: undefined,
+      cod: undefined
     };
   }
 
@@ -34,6 +35,7 @@ class App extends Component {
       .then(response => response.json())
       .then(weather => {
         this.setState({
+          cod: weather.cod,
           location: weather.name,
           country: weather.sys.country,
           temp: weather.main.temp.toFixed(),
@@ -51,13 +53,18 @@ class App extends Component {
       });
   }
 
+  handleChange = (e, { name, value }) => this.setState({ [name]: value });
+
   showWeather = e => {
     e.preventDefault();
     city = e.target.city.value;
+    e.target.city.value = "";
   };
 
   componentDidUpdate() {
     this.componentDidMount();
+
+    console.log(this.state.cod);
   }
 
   render() {
@@ -72,7 +79,8 @@ class App extends Component {
       humidity,
       pressure,
       wind,
-      flag
+      flag,
+      cod
     } = this.state;
 
     return (
@@ -84,7 +92,7 @@ class App extends Component {
             </Header>
             <InputCity
               showWeather={this.showWeather}
-              handle={this.handleChange}
+              handleChange={this.handleChange}
             />
             <div className="weather">
               <Weather
@@ -99,6 +107,7 @@ class App extends Component {
                 pressure={pressure}
                 wind={wind}
                 flag={flag}
+                cod={cod}
               />
             </div>
             <Message>
