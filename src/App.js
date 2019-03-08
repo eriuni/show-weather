@@ -40,7 +40,7 @@ class App extends Component {
             location: weather.name,
             country: weather.sys.country,
             temp: weather.main.temp.toFixed(),
-            icon: `http://openweathermap.org/img/w/${
+            icon: `https://openweathermap.org/img/w/${
               weather.weather[0].icon
             }.png`,
             desc: weather.weather[0].description,
