@@ -12,10 +12,10 @@ const Weather = props => {
   return props.cod !== 200 ? (
     <Message
       error
-      header="There was some errors with your submission"
+      header="There was some errors loading the weather"
       list={[
-        "You must include both a upper and lower case letters in your password.",
-        "You need to select your home country."
+        "The weather service may be unavaible or you have not type the city correctly",
+        "Please try again..."
       ]}
     />
   ) : (
