@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import InputCity from "./Components/InputCity";
 import Weather from "./Components/Weather";
-import { Grid, Header, Message } from "semantic-ui-react";
+import { Grid, Header, Message, Loader } from "semantic-ui-react";
 
 import "./App.css";
 
@@ -24,7 +24,8 @@ class App extends Component {
       pressure: undefined,
       wind: undefined,
       flag: undefined,
-      cod: undefined
+      cod: undefined,
+      isLoaded: true
     };
   }
 
@@ -49,7 +50,8 @@ class App extends Component {
             humidity: weather.main.humidity,
             pressure: weather.main.pressure,
             wind: weather.wind.speed,
-            flag: weather.sys.country.toLowerCase()
+            flag: weather.sys.country.toLowerCase(),
+            isLoaded: false
           });
         } else {
           this.setState({
@@ -85,7 +87,8 @@ class App extends Component {
       pressure,
       wind,
       flag,
-      cod
+      cod,
+      isLoaded
     } = this.state;
 
     return (
@@ -93,28 +96,36 @@ class App extends Component {
         <Grid textAlign="center" verticalAlign="middle">
           <Grid.Column style={{ maxWidth: 650 }}>
             <Header as="h1" color="teal" textAlign="center">
-              Show Weather App
+              SHOW WEATHER APP
             </Header>
+
             <InputCity
               showWeather={this.showWeather}
               handleChange={this.handleChange}
             />
-            <div className="weather">
-              <Weather
-                location={location}
-                country={country}
-                temp={temp}
-                icon={icon}
-                desc={desc}
-                maxTemp={maxTemp}
-                minTemp={minTemp}
-                humidity={humidity}
-                pressure={pressure}
-                wind={wind}
-                flag={flag}
-                cod={cod}
-              />
-            </div>
+            {isLoaded ? (
+              <Loader active inline="centered" size="massive">
+                Loading...
+              </Loader>
+            ) : (
+              <div className="weather">
+                <Weather
+                  location={location}
+                  country={country}
+                  temp={temp}
+                  icon={icon}
+                  desc={desc}
+                  maxTemp={maxTemp}
+                  minTemp={minTemp}
+                  humidity={humidity}
+                  pressure={pressure}
+                  wind={wind}
+                  flag={flag}
+                  cod={cod}
+                />
+              </div>
+            )}
+
             <Message>
               Build by <a href="http://github.com/eriuni">ERIUNI</a>
             </Message>
